@@ -2,64 +2,153 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIP追剧神器手机版</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>VIP追剧神器</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; background-color: #f0f0f0; text-align: center; } [cite: 1, 2]
-        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; } [cite: 2, 3, 4]
-        button { width: 45%; padding: 12px; margin: 5px; border: none; border-radius: 5px; font-size: 14px; color: white; cursor: pointer; } [cite: 4, 5]
-        .btn-clear { background-color: #ff9800; width: 90%; } [cite: 5]
-        .btn-play { background-color: #f44336; width: 90%; font-size: 18px; font-weight: bold; margin-top: 15px; } [cite: 6]
-        .btn-iqiyi { background-color: #00cc33; } [cite: 7]
-        .btn-tx { background-color: #ff7f00; } [cite: 8]
-        .btn-youku { background-color: #2fb3ff; } [cite: 9]
-        .btn-bili { background-color: #fb7299; } [cite: 10]
-        .platforms { display: flex; flex-wrap: wrap; justify-content: space-between; margin-top: 20px; } [cite: 11]
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f7f8fa;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        h2 { color: #333; margin-bottom: 20px; font-weight: 700; }
+
+        .card {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            box-sizing: border-box;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        label { display: block; text-align: left; margin-bottom: 8px; font-weight: bold; color: #555; }
+
+        .input-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        
+        input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            background: #fafafa;
+        }
+
+        input:focus { border-color: #2fb3ff; background: white; }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            padding: 12px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            font-weight: 600;
+        }
+
+        button:active { opacity: 0.7; }
+
+        .btn-paste { background-color: #2196F3; color: white; width: 80px; }
+        .btn-clear { background-color: #f0f0f0; color: #666; width: 100%; margin-top: 5px; }
+        
+        .platforms { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 10px; 
+            margin-top: 10px; 
+        }
+
+        .platforms button { color: white; padding: 15px; font-size: 14px; }
+        .btn-iqiyi { background: linear-gradient(45deg, #00cc33, #00b32d); }
+        .btn-tx { background: linear-gradient(45deg, #ff7f00, #ff9900); }
+        .btn-youku { background: linear-gradient(45deg, #2fb3ff, #0099ff); }
+        .btn-bili { background: linear-gradient(45deg, #fb7299, #ff5c8a); }
+
+        .play-area { text-align: center; margin-top: 10px; width: 100%; max-width: 400px;}
+        
+        .btn-play {
+            background: linear-gradient(45deg, #f44336, #d32f2f);
+            color: white;
+            width: 100%;
+            padding: 16px;
+            font-size: 18px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+        }
+
+        .tips { color: #888; font-size: 12px; margin-top: 20px; text-align: center; line-height: 1.6; }
     </style>
 </head>
 <body>
 
-    <h2>VIP 追剧神器</h2>
+    <h2>🎬 追剧神器 Web版</h2>
     
-    <label>输入视频网址：</label>
-    <input type="text" id="videoLink" placeholder="长按粘贴视频地址...">
-    
-    <button class="btn-clear" onclick="clearInput()">清空输入框</button>
-
-    <div class="platforms">
-        <button class="btn-iqiyi" onclick="openSite('https://www.iqiyi.com')">爱奇艺</button>
-        <button class="btn-tx" onclick="openSite('https://v.qq.com')">腾讯视频</button>
-        <button class="btn-youku" onclick="openSite('https://www.youku.com/')">优酷</button>
-        <button class="btn-bili" onclick="openSite('https://www.bilibili.com/')">哔哩哔哩</button>
+    <div class="card">
+        <label>第一步：获取地址</label>
+        <div class="platforms">
+            <button class="btn-iqiyi" onclick="openSite('https://www.iqiyi.com')">爱奇艺</button>
+            <button class="btn-tx" onclick="openSite('https://v.qq.com')">腾讯视频</button>
+            <button class="btn-youku" onclick="openSite('https://www.youku.com/')">优酷</button>
+            <button class="btn-bili" onclick="openSite('https://www.bilibili.com/')">哔哩哔哩</button>
+        </div>
     </div>
 
-    <button class="btn-play" onclick="playVideo()">🎬 开始播放</button>
+    <div class="card">
+        <label>第二步：粘贴播放</label>
+        <div class="input-group">
+            <input type="text" id="videoLink" placeholder="在此粘贴视频链接...">
+            <button class="btn-paste" onclick="pasteLink()">粘贴</button>
+        </div>
+        <button class="btn-clear" onclick="clearInput()">清空输入框</button>
+    </div>
 
-    <p style="color: red; margin-top: 20px; font-weight: bold;">提示：复制视频地址后点击上方按钮</p> [cite: 12, 13]
+    <div class="play-area">
+        <button class="btn-play" onclick="playVideo()">▶ 开始破解播放</button>
+    </div>
+
+    <div class="tips">
+        提示：去上方平台复制视频地址 → 点击粘贴 → 点击开始播放<br>
+        建议使用 Safari 或 Chrome 浏览器访问
+    </div>
 
     <script>
-        // 清空输入框
         function clearInput() {
-            document.getElementById('videoLink').value = ''; [cite: 13, 14]
+            document.getElementById('videoLink').value = '';
         }
 
-        // 打开对应平台
         function openSite(url) {
-            window.open(url, '_blank'); [cite: 14, 15]
+            window.open(url, '_blank');
         }
 
-        // 核心播放逻辑
-        function playVideo() {
-            var link = document.getElementById('videoLink').value; [cite: 15]
-            if (!link) {
-                alert("请先输入或粘贴视频网址！"); [cite: 16]
-                return; [cite: 17]
+        async function pasteLink() {
+            try {
+                const text = await navigator.clipboard.readText();
+                document.getElementById('videoLink').value = text;
+            } catch (err) {
+                alert('请手动长按输入框粘贴');
             }
-            // 拼接解析接口
-            var apiUrl = 'https://jx.xmflv.cc/?url=' + encodeURIComponent(link); [cite: 17, 18]
-            
-            // 修改为在新窗口打开，提高兼容性
-            window.open(apiUrl, '_blank'); [cite: 19]
+        }
+
+        function playVideo() {
+            var link = document.getElementById('videoLink').value;
+            // 简单校验
+            if (!link) {
+                alert("⚠ 请先输入或粘贴视频网址！");
+                return;
+            }
+            // 使用你提供的接口
+            var apiUrl = 'https://jx.xmflv.cc/?url=' + encodeURIComponent(link);
+            window.location.href = apiUrl;
         }
     </script>
 </body>
