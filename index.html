@@ -97,24 +97,22 @@
         }
 
         function playVideo() {
-            const link = document.getElementById('videoLink').value;
-            if (!link) {
-                alert("请先粘贴视频网址！");
-                return;
+            var link = document.getElementById('videoLink').value; [cite: 16]
+            if (!link) { [cite: 17]
+                alert("请先输入或粘贴视频网址！"); [cite: 17]
+                return; [cite: 17]
             }
-            
-            // 接口地址
-            const apiUrl = 'https://jx.xmflv.cc/?url=' + encodeURIComponent(link);
-            
-            // 改进：在页面内直接显示播放器，而不是跳转页面
-            const container = document.getElementById('player-container');
-            const iframe = document.getElementById('videoIframe');
-            
-            container.style.display = 'block';
-            iframe.src = apiUrl;
-            
-            // 自动滚动到播放器
-            container.scrollIntoView({ behavior: 'smooth' });
+    
+            // 构建解析地址 
+            var apiUrl = 'https://jx.xmflv.cc/?url=' + encodeURIComponent(link); [cite: 18]
+    
+            // 创建一个隐藏的 a 标签模拟点击，解决移动端跳转拦截问题
+            var downloadLink = document.createElement('a');
+            downloadLink.href = apiUrl;
+            downloadLink.target = '_self'; // 如果想开新窗口可以改为 '_blank'
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
         }
     </script>
 </body>
