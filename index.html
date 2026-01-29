@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP追剧神器手机版</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f0f0f0; text-align: center; } [cite: 1, 2]
+        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; } [cite: 2, 3, 4]
+        button { width: 45%; padding: 12px; margin: 5px; border: none; border-radius: 5px; font-size: 14px; color: white; cursor: pointer; } [cite: 4, 5]
+        .btn-clear { background-color: #ff9800; width: 90%; } [cite: 5]
+        .btn-play { background-color: #f44336; width: 90%; font-size: 18px; font-weight: bold; margin-top: 15px; } [cite: 6]
+        .btn-iqiyi { background-color: #00cc33; } [cite: 7]
+        .btn-tx { background-color: #ff7f00; } [cite: 8]
+        .btn-youku { background-color: #2fb3ff; } [cite: 9]
+        .btn-bili { background-color: #fb7299; } [cite: 10]
+        .platforms { display: flex; flex-wrap: wrap; justify-content: space-between; margin-top: 20px; } [cite: 11]
+    </style>
+</head>
+<body>
+
+    <h2>VIP 追剧神器</h2>
+    
+    <label>输入视频网址：</label>
+    <input type="text" id="videoLink" placeholder="长按粘贴视频地址...">
+    
+    <button class="btn-clear" onclick="clearInput()">清空输入框</button>
+
+    <div class="platforms">
+        <button class="btn-iqiyi" onclick="openSite('https://www.iqiyi.com')">爱奇艺</button>
+        <button class="btn-tx" onclick="openSite('https://v.qq.com')">腾讯视频</button>
+        <button class="btn-youku" onclick="openSite('https://www.youku.com/')">优酷</button>
+        <button class="btn-bili" onclick="openSite('https://www.bilibili.com/')">哔哩哔哩</button>
+    </div>
+
+    <button class="btn-play" onclick="playVideo()">🎬 开始播放</button>
+
+    <p style="color: red; margin-top: 20px; font-weight: bold;">提示：复制视频地址后点击上方按钮</p> [cite: 12, 13]
+
+    <script>
+        // 清空输入框
+        function clearInput() {
+            document.getElementById('videoLink').value = ''; [cite: 13, 14]
+        }
+
+        // 打开对应平台
+        function openSite(url) {
+            window.open(url, '_blank'); [cite: 14, 15]
+        }
+
+        // 核心播放逻辑
+        function playVideo() {
+            var link = document.getElementById('videoLink').value; [cite: 15]
+            if (!link) {
+                alert("请先输入或粘贴视频网址！"); [cite: 16]
+                return; [cite: 17]
+            }
+            // 拼接解析接口
+            var apiUrl = 'https://jx.xmflv.cc/?url=' + encodeURIComponent(link); [cite: 17, 18]
+            
+            // 修改为在新窗口打开，提高兼容性
+            window.open(apiUrl, '_blank'); [cite: 19]
+        }
+    </script>
+</body>
+</html>
