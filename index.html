@@ -3,152 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>VIP追剧神器</title>
+    <title>VIP 追剧助手</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f7f8fa;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        :root {
+            --primary-color: #ff4757;
+            --secondary-color: #2f3542;
+            --bg-color: #f1f2f6;
         }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 15px; background-color: var(--bg-color); color: var(--secondary-color); margin: 0; }
         
-        h2 { color: #333; margin-bottom: 20px; font-weight: 700; }
+        /* 容器样式 */
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        h2 { margin-top: 0; font-size: 1.2rem; color: #333; }
 
-        .card {
-            background: white;
-            width: 100%;
-            max-width: 400px;
-            padding: 20px;
-            box-sizing: border-box;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
-        }
+        /* 输入框区域 */
+        .input-group { position: relative; margin-bottom: 15px; }
+        input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 10px; font-size: 14px; box-sizing: border-box; transition: border 0.3s; }
+        input:focus { border-color: var(--primary-color); outline: none; }
 
-        label { display: block; text-align: left; margin-bottom: 8px; font-weight: bold; color: #555; }
-
-        .input-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        /* 按钮布局 */
+        .btn-row { display: flex; gap: 10px; margin-bottom: 15px; }
+        button { flex: 1; padding: 10px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; transition: opacity 0.2s; }
+        .btn-paste { background-color: #747d8c; color: white; }
+        .btn-clear { background-color: #ced6e0; color: #2f3542; }
         
-        input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            outline: none;
-            background: #fafafa;
-        }
+        .btn-play { width: 100%; background: linear-gradient(135deg, #ff4757, #ff6b81); color: white; font-size: 18px; font-weight: bold; padding: 15px; border-radius: 12px; margin-top: 5px; box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3); }
 
-        input:focus { border-color: #2fb3ff; background: white; }
+        /* 平台网格 */
+        .platforms { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
+        .plat-btn { font-size: 12px; padding: 8px 0; color: white; text-decoration: none; border-radius: 6px; text-align: center; }
+        .iqiyi { background-color: #00cc33; }
+        .tx { background-color: #ff7f00; }
+        .youku { background-color: #2fb3ff; }
+        .bili { background-color: #fb7299; }
 
-        button {
-            border: none;
-            border-radius: 8px;
-            font-size: 15px;
-            padding: 12px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            font-weight: 600;
-        }
-
-        button:active { opacity: 0.7; }
-
-        .btn-paste { background-color: #2196F3; color: white; width: 80px; }
-        .btn-clear { background-color: #f0f0f0; color: #666; width: 100%; margin-top: 5px; }
+        /* 播放器容器 */
+        #player-container { display: none; margin-top: 20px; border-radius: 10px; overflow: hidden; background: #000; position: relative; padding-top: 56.25%; /* 16:9 Aspect Ratio */ }
+        #player-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         
-        .platforms { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 10px; 
-            margin-top: 10px; 
-        }
-
-        .platforms button { color: white; padding: 15px; font-size: 14px; }
-        .btn-iqiyi { background: linear-gradient(45deg, #00cc33, #00b32d); }
-        .btn-tx { background: linear-gradient(45deg, #ff7f00, #ff9900); }
-        .btn-youku { background: linear-gradient(45deg, #2fb3ff, #0099ff); }
-        .btn-bili { background: linear-gradient(45deg, #fb7299, #ff5c8a); }
-
-        .play-area { text-align: center; margin-top: 10px; width: 100%; max-width: 400px;}
-        
-        .btn-play {
-            background: linear-gradient(45deg, #f44336, #d32f2f);
-            color: white;
-            width: 100%;
-            padding: 16px;
-            font-size: 18px;
-            border-radius: 50px;
-            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
-        }
-
-        .tips { color: #888; font-size: 12px; margin-top: 20px; text-align: center; line-height: 1.6; }
+        .footer-tips { font-size: 12px; color: #999; margin-top: 20px; line-height: 1.5; }
     </style>
 </head>
 <body>
 
-    <h2>🎬 追剧神器 Web版</h2>
-    
     <div class="card">
-        <label>第一步：获取地址</label>
-        <div class="platforms">
-            <button class="btn-iqiyi" onclick="openSite('https://www.iqiyi.com')">爱奇艺</button>
-            <button class="btn-tx" onclick="openSite('https://v.qq.com')">腾讯视频</button>
-            <button class="btn-youku" onclick="openSite('https://www.youku.com/')">优酷</button>
-            <button class="btn-bili" onclick="openSite('https://www.bilibili.com/')">哔哩哔哩</button>
-        </div>
-    </div>
-
-    <div class="card">
-        <label>第二步：粘贴播放</label>
+        <h2>🎬 VIP 追剧助手</h2>
+        
         <div class="input-group">
-            <input type="text" id="videoLink" placeholder="在此粘贴视频链接...">
-            <button class="btn-paste" onclick="pasteLink()">粘贴</button>
+            <input type="text" id="videoLink" placeholder="请在此粘贴视频播放地址...">
         </div>
-        <button class="btn-clear" onclick="clearInput()">清空输入框</button>
+        
+        <div class="btn-row">
+            <button class="btn-paste" onclick="pasteLink()">一键粘贴</button>
+            <button class="btn-clear" onclick="clearInput()">清空</button>
+        </div>
+
+        <button class="btn-play" onclick="playVideo()">立即解析播放</button>
+
+        <div class="platforms">
+            <a href="https://www.iqiyi.com" class="plat-btn iqiyi" target="_blank">爱奇艺</a>
+            <a href="https://v.qq.com" class="plat-btn tx" target="_blank">腾讯</a>
+            <a href="https://www.youku.com/" class="plat-btn youku" target="_blank">优酷</a>
+            <a href="https://www.bilibili.com/" class="plat-btn bili" target="_blank">B站</a>
+        </div>
     </div>
 
-    <div class="play-area">
-        <button class="btn-play" onclick="playVideo()">▶ 开始破解播放</button>
+    <div id="player-container">
+        <iframe id="videoIframe" src="" allowfullscreen="true"></iframe>
     </div>
 
-    <div class="tips">
-        提示：去上方平台复制视频地址 → 点击粘贴 → 点击开始播放<br>
-        建议使用 Safari 或 Chrome 浏览器访问
+    <div class="footer-tips">
+        使用说明：<br>
+        1. 在上方平台找到想看的视频，复制链接。<br>
+        2. 回到本页面点击“一键粘贴”。<br>
+        3. 点击“立即解析播放”。若无法播放，请尝试在浏览器中打开链接。
     </div>
 
     <script>
-        function clearInput() {
-            document.getElementById('videoLink').value = '';
-        }
-
-        function openSite(url) {
-            window.open(url, '_blank');
-        }
-
+        // 一键粘贴功能
         async function pasteLink() {
             try {
                 const text = await navigator.clipboard.readText();
                 document.getElementById('videoLink').value = text;
             } catch (err) {
-                alert('请手动长按输入框粘贴');
+                alert("浏览器拒绝了剪贴板权限，请手动长按粘贴。");
             }
         }
 
+        function clearInput() {
+            document.getElementById('videoLink').value = '';
+            document.getElementById('player-container').style.display = 'none';
+            document.getElementById('videoIframe').src = '';
+        }
+
         function playVideo() {
-            var link = document.getElementById('videoLink').value;
-            // 简单校验
+            const link = document.getElementById('videoLink').value;
             if (!link) {
-                alert("⚠ 请先输入或粘贴视频网址！");
+                alert("请先粘贴视频网址！");
                 return;
             }
-            // 使用你提供的接口
-            var apiUrl = 'https://jx.xmflv.cc/?url=' + encodeURIComponent(link);
-            window.location.href = apiUrl;
+            
+            // 接口地址
+            const apiUrl = 'https://jx.xmflv.cc/?url=' + encodeURIComponent(link);
+            
+            // 改进：在页面内直接显示播放器，而不是跳转页面
+            const container = document.getElementById('player-container');
+            const iframe = document.getElementById('videoIframe');
+            
+            container.style.display = 'block';
+            iframe.src = apiUrl;
+            
+            // 自动滚动到播放器
+            container.scrollIntoView({ behavior: 'smooth' });
         }
     </script>
 </body>
